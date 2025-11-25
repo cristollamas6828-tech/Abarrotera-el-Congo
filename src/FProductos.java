@@ -11,8 +11,8 @@ public class FProductos extends javax.swing.JFrame {
     ImageIcon icono = new ImageIcon(getClass().getResource("/img/produc.png"));
 
     //-------------
-    String url = "http://127.0.0.1:9000/mysqlf.php";
-    // String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo
+   // String url = "http://127.0.0.1:9000/mysqlf.php";
+    String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo
     ConexionHR cnx = new ConexionHR(url);
 
     String productos = "SELECT idproductos, nombrep, fecha_ingreso, "

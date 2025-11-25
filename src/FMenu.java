@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
  */
 public class FMenu extends javax.swing.JFrame {
 
-    ImageIcon icono = new ImageIcon(getClass().getResource("/img/FACTURA.png"));
+    ImageIcon icono = new ImageIcon(getClass().getResource("/img/tienda.png"));
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FMenu.class.getName());
 
