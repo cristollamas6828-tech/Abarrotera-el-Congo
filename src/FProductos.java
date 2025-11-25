@@ -88,12 +88,13 @@ public class FProductos extends javax.swing.JFrame {
         PTitulo.add(jLabel9);
         jLabel9.setBounds(250, 50, 310, 20);
 
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/produc.png"))); // NOI18N
         jLabel6.setMaximumSize(new java.awt.Dimension(150, 70));
         jLabel6.setMinimumSize(new java.awt.Dimension(150, 70));
         jLabel6.setPreferredSize(new java.awt.Dimension(150, 70));
         PTitulo.add(jLabel6);
-        jLabel6.setBounds(10, 10, 240, 70);
+        jLabel6.setBounds(10, 10, 220, 70);
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
         PTitulo.add(jLabel10);
