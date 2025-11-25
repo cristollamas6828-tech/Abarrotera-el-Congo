@@ -133,9 +133,9 @@ public class FMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BProductosActionPerformed
-//        FProductos fc = new FProductos();
-//        fc.setVisible(true);
-//        fc.setLocation(250, 250);
+        FProductos fc = new FProductos();
+        fc.setVisible(true);
+        fc.setLocation(250, 250);
     }//GEN-LAST:event_BProductosActionPerformed
 
     private void BFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BFacturasActionPerformed
