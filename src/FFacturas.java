@@ -1,25 +1,22 @@
 
-import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class FFacturas extends javax.swing.JFrame {
 
-//    ImageIcon icono = new ImageIcon(getClass().getResource("/img/pacientes.png"));
-//
+    
 //    //---------------------URL para la base de datos--------------------
 //     String url = "https://gt219682889.webcindario.com/mysql.php";
 //    
 //    //------------------------------------------------------------------
 //    ConexionHR cnx = new ConexionHR(url);
     //---------------------Consultas--------------------
+    
+    
     //-------------------------------------------------------
     public FFacturas() {
         initComponents();
         setLocationRelativeTo(this);
-        // this.setIconImage(icono.getImage());
+        
 
     }
 
@@ -364,7 +361,6 @@ public class FFacturas extends javax.swing.JFrame {
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
         LimpiarCampos();
-
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed

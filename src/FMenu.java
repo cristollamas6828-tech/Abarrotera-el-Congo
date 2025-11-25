@@ -13,6 +13,7 @@ public class FMenu extends javax.swing.JFrame {
 
     public FMenu() {
         initComponents();
+        setLocationRelativeTo(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -139,7 +140,7 @@ public class FMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_BFacturasActionPerformed
 
     private void BVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BVentasActionPerformed
-       FVentas fc = new FVentas();
+        FVentas fc = new FVentas();
         fc.setVisible(true);
         fc.setLocation(250, 250);
     }//GEN-LAST:event_BVentasActionPerformed
