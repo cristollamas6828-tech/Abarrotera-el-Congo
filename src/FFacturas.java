@@ -17,9 +17,9 @@ public class FFacturas extends javax.swing.JFrame {
     //---------------------Consultas--------------------
     String factura = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas ";
     String estatus = "SELECT DISTINCT estado FROM facturas ORDER BY estado";
-    String promedio = "SELECT cliente, AVG(total) AS Promedio_Por_Cliente "
-            + "FROM facturas ";
-    String grupo = " GROUP BY  cliente ORDER BY Promedio_Por_Cliente DESC;";
+    String promedio = "SELECT DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes, AVG(total) AS Promedio_Mensual "
+            + " FROM facturas ";
+    String grupo = " GROUP BY DATE_FORMAT(fecha_emision, '%Y-%m')";
 
     //-------------------------------------------------------
     public FFacturas() {
@@ -29,6 +29,7 @@ public class FFacturas extends javax.swing.JFrame {
         TFacturas.setEditable(false);
         cnx.entablar(factura, TConsulta);
         cnx.seleccionar(estatus, CBEstatus);
+        buscarFacturas(""); 
     }
 
     @SuppressWarnings("unchecked")
@@ -50,6 +51,8 @@ public class FFacturas extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         BPdf = new javax.swing.JButton();
         BGrafica = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        TBuscar = new javax.swing.JTextField();
         PFormulario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -101,7 +104,7 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondoT.png"))); // NOI18N
         jLabel12.setText("jLabel12");
         PTitulo.add(jLabel12);
-        jLabel12.setBounds(780, 0, 250, 90);
+        jLabel12.setBounds(780, 0, 360, 90);
 
         jToolBar1.setRollover(true);
 
@@ -191,6 +194,21 @@ public class FFacturas extends javax.swing.JFrame {
         });
         jToolBar1.add(BGrafica);
 
+        jLabel13.setText("BUSCAR POR NOMBRE ");
+        jLabel13.setMaximumSize(new java.awt.Dimension(150, 50));
+        jLabel13.setMinimumSize(new java.awt.Dimension(150, 30));
+        jLabel13.setPreferredSize(new java.awt.Dimension(150, 30));
+        jToolBar1.add(jLabel13);
+
+        TBuscar.setMinimumSize(new java.awt.Dimension(200, 50));
+        TBuscar.setPreferredSize(new java.awt.Dimension(250, 50));
+        TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TBuscarKeyReleased(evt);
+            }
+        });
+        jToolBar1.add(TBuscar);
+
         PFormulario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de Facturas:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 204));
@@ -239,9 +257,9 @@ public class FFacturas extends javax.swing.JFrame {
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PFormularioLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(TFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 129, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(PFormularioLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -254,22 +272,22 @@ public class FFacturas extends javax.swing.JFrame {
                     .addGroup(PFormularioLayout.createSequentialGroup()
                         .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PFormularioLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(DCFechaVen, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PFormularioLayout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(TCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PFormularioLayout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(TTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(TDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(DCFechaVen, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(TCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         PFormularioLayout.setVerticalGroup(
             PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,6 +350,7 @@ public class FFacturas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -339,11 +358,8 @@ public class FFacturas extends javax.swing.JFrame {
                                 .addComponent(PFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 1019, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -386,8 +402,8 @@ public class FFacturas extends javax.swing.JFrame {
         String cliente = TCliente.getText();
         String whereClause = "";
 
-        if (cliente != null && !cliente.trim().isEmpty()) {
-            whereClause = "WHERE cliente = '" + cliente.trim() + "'";
+        if (cliente != null && !cliente.isEmpty()) {
+            whereClause = "WHERE cliente = '" + cliente + "'";
         }
         String query = promedio + whereClause + grupo;
 
@@ -396,7 +412,7 @@ public class FFacturas extends javax.swing.JFrame {
 
         datos = cnx.consultar(query);
         series.add(cliente);
-        GraficaXY graf = new GraficaXY("Promedio de Facturación por Cliente", "Cliente", "Total Promedio ($)", series, datos);
+        GraficaXY graf = new GraficaXY("Promedio Mensual de Facturación", "Mes", "Promedio ($)", series, datos);
 
         PFondo.removeAll();
         PFondo.add(graf.chartPanel);
@@ -525,6 +541,26 @@ public class FFacturas extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_TConsultaMousePressed
+
+    private void TBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarKeyReleased
+        buscarFacturas(TBuscar.getText());
+
+    }//GEN-LAST:event_TBuscarKeyReleased
+    void buscarFacturas(String texto) {
+        String sql = "";
+
+        if (texto == null || texto.trim().isEmpty()) {
+            sql = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas";
+        } else {
+
+            sql = "SELECT idfacturas, cliente, estado, total FROM facturas "
+                    + "WHERE cliente LIKE '%" + texto + "%' ORDER BY idfacturas";
+        }
+
+        // Tu método 'entablar' se encarga de limpiar y llenar la JTable. ¡Reutilizamos código!
+        cnx.entablar(sql, TConsulta);
+    }
+
     public void LimpiarCampos() {
         TFacturas.setText("");
         DCFechaEmi.setDate(new Date());
@@ -570,6 +606,7 @@ public class FFacturas extends javax.swing.JFrame {
     private javax.swing.JPanel PFondo;
     private javax.swing.JPanel PFormulario;
     private javax.swing.JPanel PTitulo;
+    private javax.swing.JTextField TBuscar;
     private javax.swing.JTextField TCliente;
     private javax.swing.JTable TConsulta;
     private javax.swing.JTextField TDireccion;
@@ -579,6 +616,7 @@ public class FFacturas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
