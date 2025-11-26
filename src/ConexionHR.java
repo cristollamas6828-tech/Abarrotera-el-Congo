@@ -566,10 +566,9 @@ public class ConexionHR {
     //-------------------------------------------------------
     public int actualizar(String tabla, String[] valores) {
         int correcta = 0;
-
         String[] cols = columnas(tabla);
-
         String sql = "UPDATE " + tabla + " SET ";
+
         for (int k = 1; k < valores.length; k++) {
             // Manejo de valores nulos para que no se guarde la palabra "null"
             if (valores[k] == null || valores[k].equals("null")) {
@@ -582,21 +581,22 @@ public class ConexionHR {
                 sql += ",";
             }
         }
-
         sql += " WHERE " + cols[0] + " = '" + valores[0] + "'";
 
-        System.out.println("ACTUALIZAR: " + sql);
+        if (tabla.equalsIgnoreCase("ventas")) {
+            // Usa cols[1] y valores[1] para la segunda parte de la clave compuesta
+            sql += " AND " + cols[1] + " = '" + valores[1] + "'";
+        }
 
         try {
             String resultado = peticionHttpPost(url, sql);
             if (resultado != null && resultado.contains("AFFECTED ROWS")) {
                 correcta = 1;
             }
-            System.out.println("Resultado: " + resultado);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         return correcta;
     }
 

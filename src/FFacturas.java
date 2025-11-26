@@ -24,9 +24,9 @@ public class FFacturas extends javax.swing.JFrame {
     //-------------------------------------------------------
     public FFacturas() {
         initComponents();
-       
+        setLocationRelativeTo(this);
         this.setIconImage(icono.getImage());
-        TFacturas.setEnabled(false);
+        TFacturas.setEditable(false);
         cnx.entablar(factura, TConsulta);
         cnx.seleccionar(estatus, CBEstatus);
         buscarFacturas(""); 
@@ -51,7 +51,6 @@ public class FFacturas extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         BPdf = new javax.swing.JButton();
         BGrafica = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JToolBar.Separator();
         jLabel13 = new javax.swing.JLabel();
         TBuscar = new javax.swing.JTextField();
         PFormulario = new javax.swing.JPanel();
@@ -194,7 +193,6 @@ public class FFacturas extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(BGrafica);
-        jToolBar1.add(jSeparator3);
 
         jLabel13.setText("BUSCAR POR NOMBRE ");
         jLabel13.setMaximumSize(new java.awt.Dimension(150, 50));
@@ -507,7 +505,7 @@ public class FFacturas extends javax.swing.JFrame {
         String direccion = TDireccion.getText();
 
         //Mensaje de que se borro exitosamente
-        javax.swing.JOptionPane.showMessageDialog(this, "¡Factura se Borro con éxito!");
+        javax.swing.JOptionPane.showMessageDialog(this, "¡Factura Se Borro con éxito!");
 
         String[] valores = new String[]{idFactura, fechaEmision, fechaVencimiento, estado, cliente, total, direccion};
         cnx.borrar("facturas", valores);
@@ -630,7 +628,6 @@ public class FFacturas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
-    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 

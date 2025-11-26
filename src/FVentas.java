@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
@@ -10,6 +11,10 @@ public class FVentas extends javax.swing.JFrame {
 
     String ventas = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos  FROM ventas";
     String pagos = "SELECT pago FROM ventas";
+    String promedio = "SELECT pago , AVG(inventario) AS Promedio_Cantidad "
+            + "FROM ventas";
+    String grupo = " GROUP BY pago";
+
     //------------------------------------------------------------------
     ConexionHR cnx = new ConexionHR(url);
 
@@ -19,8 +24,8 @@ public class FVentas extends javax.swing.JFrame {
         this.setIconImage(icono.getImage());
         //----------Deshabilitar campos-----------
         TIdFactura.setEnabled(false);
-        TIdProductos.setEnabled(false );
-        
+        TIdProductos.setEnabled(false);
+
         cnx.entablar(ventas, TConsultas);
         cnx.seleccionar(pagos, CBPagos);
     }
@@ -38,9 +43,7 @@ public class FVentas extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         BNuevo = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        BAgregar = new javax.swing.JButton();
         BActualizar = new javax.swing.JButton();
-        BBorrar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         BPdf = new javax.swing.JButton();
         BGrafica = new javax.swing.JButton();
@@ -58,7 +61,7 @@ public class FVentas extends javax.swing.JFrame {
         PFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Glucotel - Módulo de Pacientes");
+        setTitle("ABARROTERA - Módulo de Ventas");
         setBackground(new java.awt.Color(0, 0, 0));
 
         PTitulo.setBackground(new java.awt.Color(0, 0, 51));
@@ -110,20 +113,6 @@ public class FVentas extends javax.swing.JFrame {
         jToolBar1.add(BNuevo);
         jToolBar1.add(jSeparator2);
 
-        BAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
-        BAgregar.setText("AGREGAR");
-        BAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BAgregar.setMaximumSize(new java.awt.Dimension(100, 70));
-        BAgregar.setMinimumSize(new java.awt.Dimension(100, 70));
-        BAgregar.setPreferredSize(new java.awt.Dimension(100, 70));
-        BAgregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        BAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BAgregarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(BAgregar);
-
         BActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
         BActualizar.setText("ACTUALIZAR");
         BActualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -137,20 +126,6 @@ public class FVentas extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(BActualizar);
-
-        BBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        BBorrar.setText("BORRAR");
-        BBorrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BBorrar.setMaximumSize(new java.awt.Dimension(100, 70));
-        BBorrar.setMinimumSize(new java.awt.Dimension(100, 70));
-        BBorrar.setPreferredSize(new java.awt.Dimension(100, 70));
-        BBorrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        BBorrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BBorrarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(BBorrar);
         jToolBar1.add(jSeparator1);
 
         BPdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pdf.png"))); // NOI18N
@@ -311,7 +286,18 @@ public class FVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPdfActionPerformed
+        String pagoExcluido = CBPagos.getSelectedItem().toString();
+        String where = " WHERE pago != '" + pagoExcluido + "'";
 
+        String orden = " ORDER BY Promedio_Cantidad DESC";
+
+        String query = promedio + where + grupo + orden;
+
+        cnx.crearPDF(
+                "ABARROTERA", "PROMEDIO DE PRODUCTOS VENDIDOS POR PAGO (Excluyendo " + pagoExcluido + ")", query,
+                new float[]{0.5f, 0.5f}, "promedio_por_pago"
+        );
+        cnx.visualizarPDF("promedio_por_pago");
     }//GEN-LAST:event_BPdfActionPerformed
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
@@ -319,65 +305,40 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed
+        String pago = CBPagos.getSelectedItem().toString();
+        String orden = "ORDER BY promedio_cantidad DESC";
+        String prom = promedio + " WHERE pago != '" + pago + "'" + grupo + " " + orden;
 
+        ArrayList<String> series = new ArrayList();
+        ArrayList<ArrayList<String>> datos = new ArrayList();
+
+        datos = cnx.consultar(prom);
+        series.add(pago);
+        GraficaXY graf = new GraficaXY("Promedio de Metodo de pago especifico", "pago", "Promedio ", series, datos);
+
+        PFondo.removeAll();
+        PFondo.add(graf.chartPanel);
+        PFondo.updateUI();
     }//GEN-LAST:event_BGraficaActionPerformed
 
-    private void BAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAgregarActionPerformed
-
-        // Cambiamos el título para dar feedback visual
-        this.setTitle("Procesando venta... Espere por favor.");
-
-        new Thread(() -> {
-            // 2. PREPARAR DATOS
-            java.util.Map<String, String> datosVenta = new java.util.HashMap<>();
-            datosVenta.put("accion", "insertVenta");
-            datosVenta.put("facturas_idfacturas", TIdFactura.getText());
-            datosVenta.put("productos_idproductos", TIdProductos.getText());
-            datosVenta.put("inventario", TInventario.getText());
-
-            // Manejo del Enum Pago ('EFECTIVO', 'TARJETA', 'CREDITO')
-            datosVenta.put("pago", CBPagos.getSelectedItem().toString());
-            boolean exito = cnx.enviarFormulario(datosVenta);
-            javax.swing.SwingUtilities.invokeLater(() -> {
-
-                if (exito) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "¡Venta registrada con éxito!");
-                    // Recargar la tabla usando tu consulta 'ventas' definida arriba en la clase
-                    cnx.entablar(ventas, TConsultas);
-
-                    LimpiarCampos(); // Tu método para borrar los textfields
-
-                } else {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la venta.\nVerifica que los IDs existan y no estén duplicados.");
-                }
-                this.setTitle("ABARROTERA - Módulo de Ventas"); // O el título que desees poner
-            });
-
-        }).start();
-
-
-    }//GEN-LAST:event_BAgregarActionPerformed
-
     private void BActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActualizarActionPerformed
+        String factura = TIdFactura.getText();
+        String producto = TIdProductos.getText();
+        String inv = TInventario.getText();
+        String pagos = CBPagos.getSelectedItem().toString();
 
+        String[] valores = new String[]{factura, producto, inv, pagos};
+
+        if (cnx.actualizar("ventas", valores) == 1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "¡Factura actualizada con éxito!");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al actualizar la factura.");
+        }
+
+        cnx.entablar(ventas, TConsultas);
+        LimpiarCampos();
 
     }//GEN-LAST:event_BActualizarActionPerformed
-
-    private void BBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBorrarActionPerformed
-        String idFactura = TIdFactura.getText();
-        String ifproductos = TIdProductos.getText();
-        String inventario = TInventario.getText();
-        String pago = CBPagos.getSelectedItem().toString();
-
-        //Mensaje de que se borro exitosamente
-        javax.swing.JOptionPane.showMessageDialog(this, "¡Factura Se Borro con éxito!");
-
-        String[] valores = new String[]{idFactura, ifproductos, inventario, pago};
-        cnx.borrar("ventas", valores);
-        cnx.entablar(ventas, TConsultas);
-
-        LimpiarCampos();
-    }//GEN-LAST:event_BBorrarActionPerformed
 
     private void TConsultasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TConsultasMousePressed
         DefaultTableModel datos = (DefaultTableModel) TConsultas.getModel();
@@ -427,8 +388,6 @@ public class FVentas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BActualizar;
-    private javax.swing.JButton BAgregar;
-    private javax.swing.JButton BBorrar;
     private javax.swing.JButton BGrafica;
     private javax.swing.JButton BNuevo;
     private javax.swing.JButton BPdf;
