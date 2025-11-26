@@ -1,19 +1,28 @@
 
-import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FVentas extends javax.swing.JFrame {
-    
-    
-    
+
+    ImageIcon icono = new ImageIcon(getClass().getResource("/img/shop.png"));
+
+    String url = "https://pf219682889.webcindario.com/mysql.php";
+
+    String ventas = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos  FROM ventas";
+    String pagos = "SELECT pago FROM ventas";
+    //------------------------------------------------------------------
+    ConexionHR cnx = new ConexionHR(url);
 
     public FVentas() {
         initComponents();
         setLocationRelativeTo(this);
-       
+        this.setIconImage(icono.getImage());
+        //----------Deshabilitar campos-----------
+        TIdFactura.setEnabled(false);
+        TIdProductos.setEnabled(false );
+        
+        cnx.entablar(ventas, TConsultas);
+        cnx.seleccionar(pagos, CBPagos);
     }
 
     @SuppressWarnings("unchecked")
@@ -25,6 +34,7 @@ public class FVentas extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         BNuevo = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
@@ -38,11 +48,13 @@ public class FVentas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         TIdFactura = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        CBSexo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         TIdProductos = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        CBPagos = new javax.swing.JComboBox<>();
+        TInventario = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TPacientes = new javax.swing.JTable();
+        TConsultas = new javax.swing.JTable();
         PFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -62,17 +74,24 @@ public class FVentas extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Módulo de Ventas");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(150, 50, 156, 20);
+        jLabel9.setBounds(150, 50, 190, 20);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sales.png"))); // NOI18N
         PTitulo.add(jLabel8);
         jLabel8.setBounds(19, 17, 64, 60);
 
-        jLabel10.setBackground(new java.awt.Color(204, 102, 0));
+        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo1.png"))); // NOI18N
         jLabel10.setOpaque(true);
         PTitulo.add(jLabel10);
-        jLabel10.setBounds(0, 0, 1030, 90);
+        jLabel10.setBounds(0, 0, 890, 90);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo1.png"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        PTitulo.add(jLabel3);
+        jLabel3.setBounds(890, 0, 130, 90);
 
         jToolBar1.setRollover(true);
 
@@ -179,6 +198,13 @@ public class FVentas extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(78, 80, 82));
         jLabel2.setText("IDProductos:");
 
+        jLabel5.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(78, 80, 82));
+        jLabel5.setText("PAGOS:");
+
+        CBPagos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Tarjeta", "Credito" }));
+
         javax.swing.GroupLayout PFormularioLayout = new javax.swing.GroupLayout(PFormulario);
         PFormulario.setLayout(PFormularioLayout);
         PFormularioLayout.setHorizontalGroup(
@@ -188,8 +214,12 @@ public class FVentas extends javax.swing.JFrame {
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PFormularioLayout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(CBSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CBPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PFormularioLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -216,11 +246,13 @@ public class FVentas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(CBSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5)
+                    .addComponent(CBPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
-        TPacientes.setModel(new javax.swing.table.DefaultTableModel(
+        TConsultas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -231,12 +263,12 @@ public class FVentas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        TPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        TConsultas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                TPacientesMousePressed(evt);
+                TConsultasMousePressed(evt);
             }
         });
-        jScrollPane2.setViewportView(TPacientes);
+        jScrollPane2.setViewportView(TConsultas);
 
         PFondo.setBackground(new java.awt.Color(255, 255, 204));
         PFondo.setLayout(new java.awt.GridLayout(1, 0));
@@ -245,7 +277,6 @@ public class FVentas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -255,7 +286,9 @@ public class FVentas extends javax.swing.JFrame {
                 .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 1019, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
+                    .addComponent(PTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -278,36 +311,97 @@ public class FVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPdfActionPerformed
-        
+
     }//GEN-LAST:event_BPdfActionPerformed
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
- 
+        LimpiarCampos();
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed
-                PFondo.updateUI();
+
     }//GEN-LAST:event_BGraficaActionPerformed
 
     private void BAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAgregarActionPerformed
-      
+
+        // Cambiamos el título para dar feedback visual
+        this.setTitle("Procesando venta... Espere por favor.");
+
+        new Thread(() -> {
+            // 2. PREPARAR DATOS
+            java.util.Map<String, String> datosVenta = new java.util.HashMap<>();
+            datosVenta.put("accion", "insertVenta");
+            datosVenta.put("facturas_idfacturas", TIdFactura.getText());
+            datosVenta.put("productos_idproductos", TIdProductos.getText());
+            datosVenta.put("inventario", TInventario.getText());
+
+            // Manejo del Enum Pago ('EFECTIVO', 'TARJETA', 'CREDITO')
+            datosVenta.put("pago", CBPagos.getSelectedItem().toString());
+            boolean exito = cnx.enviarFormulario(datosVenta);
+            javax.swing.SwingUtilities.invokeLater(() -> {
+
+                if (exito) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "¡Venta registrada con éxito!");
+                    // Recargar la tabla usando tu consulta 'ventas' definida arriba en la clase
+                    cnx.entablar(ventas, TConsultas);
+
+                    LimpiarCampos(); // Tu método para borrar los textfields
+
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Error al guardar la venta.\nVerifica que los IDs existan y no estén duplicados.");
+                }
+                this.setTitle("ABARROTERA - Módulo de Ventas"); // O el título que desees poner
+            });
+
+        }).start();
+
 
     }//GEN-LAST:event_BAgregarActionPerformed
 
     private void BActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActualizarActionPerformed
-       
+
 
     }//GEN-LAST:event_BActualizarActionPerformed
 
     private void BBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBorrarActionPerformed
-        
+        String idFactura = TIdFactura.getText();
+        String ifproductos = TIdProductos.getText();
+        String inventario = TInventario.getText();
+        String pago = CBPagos.getSelectedItem().toString();
 
+        //Mensaje de que se borro exitosamente
+        javax.swing.JOptionPane.showMessageDialog(this, "¡Factura Se Borro con éxito!");
+
+        String[] valores = new String[]{idFactura, ifproductos, inventario, pago};
+        cnx.borrar("ventas", valores);
+        cnx.entablar(ventas, TConsultas);
+
+        LimpiarCampos();
     }//GEN-LAST:event_BBorrarActionPerformed
 
-    private void TPacientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TPacientesMousePressed
- 
+    private void TConsultasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TConsultasMousePressed
+        DefaultTableModel datos = (DefaultTableModel) TConsultas.getModel();
+        int renSel = TConsultas.getSelectedRow();
 
-    }//GEN-LAST:event_TPacientesMousePressed
+        if (renSel > -1) {
+            String idFactura = datos.getValueAt(renSel, 0).toString();
+            String idProducto = datos.getValueAt(renSel, 1).toString();
+            String inventario = cnx.obtenerDato("SELECT inventario FROM ventas WHERE facturas_idfacturas = '" + idFactura + "' AND productos_idproductos = '" + idProducto + "'");
+            String pago = cnx.obtenerDato("SELECT pago FROM ventas WHERE facturas_idfacturas = '" + idFactura + "' AND productos_idproductos = '" + idProducto + "'");
+            TIdFactura.setText(idFactura);
+            TIdProductos.setText(idProducto);
+            TInventario.setText(inventario);
+            CBPagos.setSelectedItem(pago);
+        }
+
+    }//GEN-LAST:event_TConsultasMousePressed
+
+    public void LimpiarCampos() {
+        TIdFactura.setText("");
+        TIdProductos.setText("");
+        TInventario.setText("");
+        CBPagos.setSelectedIndex(0);
+    }
 
     public static void main(String args[]) {
 
@@ -338,18 +432,21 @@ public class FVentas extends javax.swing.JFrame {
     private javax.swing.JButton BGrafica;
     private javax.swing.JButton BNuevo;
     private javax.swing.JButton BPdf;
-    private javax.swing.JComboBox<String> CBSexo;
+    private javax.swing.JComboBox<String> CBPagos;
     private javax.swing.JPanel PFondo;
     private javax.swing.JPanel PFormulario;
     private javax.swing.JPanel PTitulo;
+    private javax.swing.JTable TConsultas;
     private javax.swing.JTextField TIdFactura;
     private javax.swing.JTextField TIdProductos;
-    private javax.swing.JTable TPacientes;
+    private javax.swing.JTextField TInventario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
