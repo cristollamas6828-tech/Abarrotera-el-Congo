@@ -10,26 +10,31 @@ public class FProductos extends javax.swing.JFrame {
 
     ImageIcon icono = new ImageIcon(getClass().getResource("/img/produc.png"));
 
-    //-------------
-   // String url = "http://127.0.0.1:9000/mysqlf.php";
-    String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo
-    ConexionHR cnx = new ConexionHR(url);
+    //---------------------URLs para la base de datos----------------------------
+//    String url = "https://pf219682889.webcindario.com/mysql.php";// Base Cristo miarroba
+//    String url = "https://pf220882298.webcindario.com/mysql.php"; // Base Fer miarroba
+    String url = "http://127.0.0.1:9000/mysqlf.php"; // Localhost para pruebas
+    //--------------------------------------------------------------------------
+    
+    ConexionHR cnx = new ConexionHR(url); // Conexion 
 
+    //---------------------Consultas--------------------------------------------
     String productos = "SELECT idproductos, nombrep, fecha_ingreso, "
             + "cantidad, precio, lote "
             + "FROM productos ORDER BY idproductos ";
-
-    //------------
+    String grupo1 = "DELETE FROM ventas WHERE productos_idproductos = '"; // Para borrar registro
+    String grupo2 = "SELECT lote FROM productos WHERE idproductos = '"; // Para el MousePressed de la tabla
+    //--------------------------------------------------------------------------
     public FProductos() {
         initComponents();
-        TIdProducto.setEnabled(false);
+        TIdProducto.setEnabled(false); // Deshabilitado 
         setLocationRelativeTo(this);
         this.setIconImage(icono.getImage());
         cnx.entablar(productos, TProductos);
         // Ordena elementos de la tabla a la columna seleccionada 
-//        DefaultTableModel modelo = (DefaultTableModel) TProductos.getModel();
-//        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
-//        TProductos.setRowSorter(sorter);
+        DefaultTableModel modelo = (DefaultTableModel) TProductos.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TProductos.setRowSorter(sorter);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,6 +55,8 @@ public class FProductos extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         BPdf = new javax.swing.JButton();
         BGrafica = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
+        BReestablecerValores = new javax.swing.JButton();
         PFormulario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -68,8 +75,9 @@ public class FProductos extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TProductos = new javax.swing.JTable();
         PFondo = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Abarrotera - Productos");
         setBackground(new java.awt.Color(0, 0, 0));
 
@@ -175,7 +183,7 @@ public class FProductos extends javax.swing.JFrame {
         jToolBar1.add(BPdf);
 
         BGrafica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Graph.png"))); // NOI18N
-        BGrafica.setText("GRAFICA");
+        BGrafica.setText("GRÁFICA");
         BGrafica.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BGrafica.setMaximumSize(new java.awt.Dimension(100, 70));
         BGrafica.setMinimumSize(new java.awt.Dimension(100, 70));
@@ -187,6 +195,22 @@ public class FProductos extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(BGrafica);
+        jToolBar1.add(jSeparator3);
+
+        BReestablecerValores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/New file.png"))); // NOI18N
+        BReestablecerValores.setText("REESTABLECER");
+        BReestablecerValores.setFocusable(false);
+        BReestablecerValores.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BReestablecerValores.setMaximumSize(new java.awt.Dimension(110, 70));
+        BReestablecerValores.setMinimumSize(new java.awt.Dimension(110, 70));
+        BReestablecerValores.setPreferredSize(new java.awt.Dimension(110, 70));
+        BReestablecerValores.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BReestablecerValores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BReestablecerValoresActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BReestablecerValores);
 
         PFormulario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Producto:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
@@ -275,8 +299,8 @@ public class FProductos extends javax.swing.JFrame {
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(SCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TBusqueda)))
                         .addContainerGap())))
@@ -306,9 +330,8 @@ public class FProductos extends javax.swing.JFrame {
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TLote)
                     .addComponent(TBusqueda)
-                    .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -333,6 +356,10 @@ public class FProductos extends javax.swing.JFrame {
         PFondo.setBackground(new java.awt.Color(255, 255, 255));
         PFondo.setLayout(new java.awt.GridLayout(1, 0));
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("GRÁFICA");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -344,7 +371,9 @@ public class FProductos extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addComponent(PFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -358,9 +387,13 @@ public class FProductos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(17, 17, 17))
         );
 
@@ -425,9 +458,9 @@ public class FProductos extends javax.swing.JFrame {
         // 2. EMPAQUETAR LOS DATOS EN UN MAPA
         java.util.Map<String, String> datos = new java.util.HashMap<>();
 
-        // y maneja el ID automáticamente si se pasa un valor vacío o nulo.
-        // O se pasa un ID si el campo no es AUTO_INCREMENT. Basado en el SQL, sí lo es.
-        datos.put("accion", "insertProducto"); 
+        // Maneja el ID automáticamente si se pasa un valor vacío o nulo.
+        // O se pasa un ID si el campo no es AUTO_INCREMENT.
+        datos.put("accion", "insertProducto");
 
         // Se pasa el ID en blanco o nulo
         datos.put("idproductos", TIdProducto.getText().isEmpty() ? "NULL" : TIdProducto.getText());
@@ -486,7 +519,7 @@ public class FProductos extends javax.swing.JFrame {
                 "Confirmar borrado CASCADA", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
             // Paso 1: Borrar registros relacionados en la tabla 'ventas'
-            String sqlDeleteVentas = "DELETE FROM ventas WHERE productos_idproductos = '" + id + "'";
+            String sqlDeleteVentas = grupo1 + id + "'";
             String resultadoVentas = cnx.peticionHttpPost(cnx.url, sqlDeleteVentas); // Uso directo de peticionHttpPost
             if (resultadoVentas != null && resultadoVentas.contains("AFFECTED ROWS")) {
                 // Paso 2: Si las ventas se borraron, borrar el producto principal
@@ -499,7 +532,7 @@ public class FProductos extends javax.swing.JFrame {
                     javax.swing.JOptionPane.showMessageDialog(this, "Error al borrar el producto.");
                 }
             } else {
-                // Si se llega aquí, hubo un problema con la primera eliminación o el servidor devolvió un error 500.
+                // Si se llega aquí, hubo un problema con la primera eliminación o el servidor devolvió un error.
                 javax.swing.JOptionPane.showMessageDialog(this, "Error: No se pudieron borrar los registros de ventas asociados. Resultado: " + resultadoVentas);
             }
         }
@@ -517,8 +550,8 @@ public class FProductos extends javax.swing.JFrame {
             String cant = datos.getValueAt(renSel, 3).toString(); // Cantidad
             String pre = datos.getValueAt(renSel, 4).toString(); // Precio
 
-            // Lo más seguro es obtener 'lote' con una consulta adicional
-            String lote = cnx.obtenerDato("SELECT lote FROM productos WHERE idproductos = '" + id + "'");
+            // Obtener 'lote' con una consulta adicional (grupo2)
+            String lote = cnx.obtenerDato(grupo2 + id + "'");
 
             TIdProducto.setText(id);
             TNombrep.setText(nom);
@@ -541,6 +574,11 @@ public class FProductos extends javax.swing.JFrame {
     private void TBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBusquedaKeyTyped
         filtrarProductos(TBusqueda.getText());
     }//GEN-LAST:event_TBusquedaKeyTyped
+
+    private void BReestablecerValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReestablecerValoresActionPerformed
+        cnx.entablar(productos, TProductos);
+        limpiarCampos();
+    }//GEN-LAST:event_BReestablecerValoresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -574,6 +612,7 @@ public class FProductos extends javax.swing.JFrame {
     private javax.swing.JButton BGrafica;
     private javax.swing.JButton BNuevo;
     private javax.swing.JButton BPdf;
+    private javax.swing.JButton BReestablecerValores;
     private com.toedter.calendar.JDateChooser DCFecha;
     private javax.swing.JPanel PFondo;
     private javax.swing.JPanel PFormulario;
@@ -588,6 +627,7 @@ public class FProductos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -599,6 +639,7 @@ public class FProductos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 

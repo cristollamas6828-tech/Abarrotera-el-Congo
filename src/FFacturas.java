@@ -3,25 +3,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class FFacturas extends javax.swing.JFrame {
 
     ImageIcon icono = new ImageIcon(getClass().getResource("/img/FACTURA.png"));
 
-    //---------------------URL para la base de datos--------------------
-    String url = "https://pf219682889.webcindario.com/mysql.php";
-
-    //------------------------------------------------------------------
+    //---------------------URLs para la base de datos---------------------------
+    String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo miarroba
+//    String url = "https://pf220882298.webcindario.com/mysql.php"; // Base Fer miarroba
+//    String url = "http://127.0.0.1:9000/mysqlC.php"; Localhost para pruebas
+    //--------------------------------------------------------------------------
     ConexionHR cnx = new ConexionHR(url);
 
-    //---------------------Consultas--------------------
+    //---------------------Consultas--------------------------------------------
     String factura = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas ";
     String estatus = "SELECT DISTINCT estado FROM facturas ORDER BY estado";
     String promedio = "SELECT DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes, AVG(total) AS Promedio_Mensual "
             + " FROM facturas ";
     String grupo = " GROUP BY DATE_FORMAT(fecha_emision, '%Y-%m')";
 
-    //-------------------------------------------------------
+    //--------------------------------------------------------------------------
     public FFacturas() {
         initComponents();
         setLocationRelativeTo(this);
@@ -29,7 +31,11 @@ public class FFacturas extends javax.swing.JFrame {
         TFacturas.setEditable(false);
         cnx.entablar(factura, TConsulta);
         cnx.seleccionar(estatus, CBEstatus);
-        buscarFacturas(""); 
+        buscarFacturas("");
+        // Ordena elementos de la tabla a la columna seleccionada 
+        DefaultTableModel modelo = (DefaultTableModel) TConsulta.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TConsulta.setRowSorter(sorter);
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +96,7 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Módulo de Facturas");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(150, 50, 170, 20);
+        jLabel9.setBounds(150, 50, 210, 20);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/shop.png"))); // NOI18N

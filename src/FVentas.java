@@ -2,22 +2,31 @@
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class FVentas extends javax.swing.JFrame {
 
     ImageIcon icono = new ImageIcon(getClass().getResource("/img/shop.png"));
+    
+    //---------------------URLs para la base de datos----------------------------
+    String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo miarroba
+//    String url = "https://pf220882298.webcindario.com/mysql.php"; // Base Fer miarroba
+//    String url = "http://127.0.0.1:9000/mysqlC.php"; // Localhost para pruebas
+    //--------------------------------------------------------------------------
 
-    String url = "https://pf219682889.webcindario.com/mysql.php";
-
-    String ventas = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos  FROM ventas";
+    ConexionHR cnx = new ConexionHR(url); // Conexion
+    
+    //---------------------Consultas--------------------------------------------
+    String ventas = "SELECT facturas_idfacturas AS IDFacturas, "
+            + "productos_idproductos AS IDProductos, inventario, "
+            + "pago AS Pagos FROM ventas";
     String pagos = "SELECT pago FROM ventas";
     String promedio = "SELECT pago , AVG(inventario) AS Promedio_Cantidad "
             + "FROM ventas";
     String grupo = " GROUP BY pago";
 
-    //------------------------------------------------------------------
-    ConexionHR cnx = new ConexionHR(url);
-
+    //--------------------------------------------------------------------------
+    
     public FVentas() {
         initComponents();
         setLocationRelativeTo(this);
@@ -28,6 +37,11 @@ public class FVentas extends javax.swing.JFrame {
 
         cnx.entablar(ventas, TConsultas);
         cnx.seleccionar(pagos, CBPagos);
+        
+        // Ordena elementos de la tabla a la columna seleccionada 
+        DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TConsultas.setRowSorter(sorter);
     }
 
     @SuppressWarnings("unchecked")
@@ -47,6 +61,7 @@ public class FVentas extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         BPdf = new javax.swing.JButton();
         BGrafica = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JToolBar.Separator();
         PFormulario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TIdFactura = new javax.swing.JTextField();
@@ -155,6 +170,7 @@ public class FVentas extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(BGrafica);
+        jToolBar1.add(jSeparator3);
 
         PFormulario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Paciente:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
@@ -185,26 +201,27 @@ public class FVentas extends javax.swing.JFrame {
         PFormularioLayout.setHorizontalGroup(
             PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PFormularioLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PFormularioLayout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(28, 28, 28)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CBPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PFormularioLayout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(TIdFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107))
                     .addGroup(PFormularioLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(24, 24, 24)
-                        .addComponent(TIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TIdFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         PFormularioLayout.setVerticalGroup(
@@ -411,6 +428,7 @@ public class FVentas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 
