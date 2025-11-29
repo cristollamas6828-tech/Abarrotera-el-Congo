@@ -36,6 +36,14 @@ public class FProductos extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) TProductos.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
         TProductos.setRowSorter(sorter);
+        
+        DCFiltrarFechaa.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            if ("date".equals(evt.getPropertyName())) {
+                filtrarProductos(); // Llama a la función de filtrado
+            }
+        }
+    });
     }
 
     @SuppressWarnings("unchecked")
@@ -73,6 +81,8 @@ public class FProductos extends javax.swing.JFrame {
         SCantidad = new javax.swing.JSpinner();
         TBusqueda = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        DCFiltrarFechaa = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TProductos = new javax.swing.JTable();
         PFondo = new javax.swing.JPanel();
@@ -263,6 +273,12 @@ public class FProductos extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("BUSCAR PRODUCTO:");
 
+        jLabel13.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(78, 80, 82));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel13.setText("FILTRAR POR FECHA DE INGRESO:");
+
         javax.swing.GroupLayout PFormularioLayout = new javax.swing.GroupLayout(PFormulario);
         PFormulario.setLayout(PFormularioLayout);
         PFormularioLayout.setHorizontalGroup(
@@ -271,12 +287,38 @@ public class FProductos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PFormularioLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(DCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                        .addGap(224, 224, 224))
+                        .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PFormularioLayout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(7, 7, 7))
+                                    .addGroup(PFormularioLayout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(22, 22, 22)))
+                                .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TLote, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(35, 35, 35)
+                        .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TBusqueda))
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(DCFiltrarFechaa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(PFormularioLayout.createSequentialGroup()
                         .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PFormularioLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(DCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PFormularioLayout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -284,27 +326,9 @@ public class FProductos extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TNombrep, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(PFormularioLayout.createSequentialGroup()
-                                .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(PFormularioLayout.createSequentialGroup()
-                                        .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(7, 7, 7)
-                                        .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(TLote, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(TPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(PFormularioLayout.createSequentialGroup()
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(SCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(33, 33, 33)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TBusqueda)))
-                        .addContainerGap())))
+                                .addComponent(TNombrep, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         PFormularioLayout.setVerticalGroup(
             PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,9 +348,12 @@ public class FProductos extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(SCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(TPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DCFiltrarFechaa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TLote)
@@ -376,7 +403,7 @@ public class FProductos extends javax.swing.JFrame {
                     .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1201, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -573,12 +600,13 @@ public class FProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_TProductosMousePressed
 
     private void TBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBusquedaKeyTyped
-        filtrarProductos(TBusqueda.getText());
+        filtrarProductos();
     }//GEN-LAST:event_TBusquedaKeyTyped
 
     private void BReestablecerValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReestablecerValoresActionPerformed
+        TBusqueda.setText("");
+        DCFiltrarFechaa.setDate(null);
         cnx.entablar(productos, TProductos);
-        limpiarCampos();
     }//GEN-LAST:event_BReestablecerValoresActionPerformed
 
     /**
@@ -615,6 +643,7 @@ public class FProductos extends javax.swing.JFrame {
     private javax.swing.JButton BPdf;
     private javax.swing.JButton BReestablecerValores;
     private com.toedter.calendar.JDateChooser DCFecha;
+    private com.toedter.calendar.JDateChooser DCFiltrarFechaa;
     private javax.swing.JPanel PFondo;
     private javax.swing.JPanel PFormulario;
     private javax.swing.JPanel PTitulo;
@@ -629,6 +658,7 @@ public class FProductos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -647,29 +677,46 @@ public class FProductos extends javax.swing.JFrame {
     private void limpiarCampos() {
         TIdProducto.setText("");
         TNombrep.setText("");
-        DCFecha.setDate(new Date());
+        DCFecha.setDate(null);
         SCantidad.setValue(1);
         TPrecio.setText("");
         TLote.setText("");
     }
 
-    private void filtrarProductos(String texto) {
-        String query;
-        String nombreBuscado = texto.trim(); // Limpia espacios
+    private void filtrarProductos() {
+ String nombreBuscado = TBusqueda.getText().trim();
+        Date fechaFiltro = DCFiltrarFechaa.getDate();
+        
+        // Consulta base
+        String query = "SELECT idproductos, nombrep, fecha_ingreso, cantidad, precio, lote "
+                     + "FROM productos";
+        
+        // Lista para acumular las condiciones del WHERE
+        ArrayList<String> condiciones = new ArrayList<>();
 
-        if (nombreBuscado.isEmpty()) {
-            // Si el campo de búsqueda está vacío, usa la consulta original (todos los productos)
-            query = "SELECT idproductos, nombrep, fecha_ingreso, cantidad, precio, lote "
-                    + "FROM productos ORDER BY idproductos";
-        } else {
-            // Si hay texto, filtra por el nombre usando LIKE
-            // El comodín '%' permite encontrar coincidencias en cualquier parte del nombre.
-            query = "SELECT idproductos, nombrep, fecha_ingreso, cantidad, precio, lote "
-                    + "FROM productos WHERE nombrep LIKE '%" + nombreBuscado + "%' ORDER BY idproductos";
+        // 1. Condición: Filtrar por nombre (si hay texto en la caja de búsqueda)
+        if (!nombreBuscado.isEmpty()) {
+            // Se usa LIKE para encontrar coincidencias parciales
+            condiciones.add("nombrep LIKE '%" + nombreBuscado + "%'");
         }
+
+        // 2. Condición: Filtrar por fecha de ingreso (si hay una fecha seleccionada)
+        if (fechaFiltro != null) {
+            // Convierte la fecha seleccionada a formato SQL ('YYYY-MM-DD')
+            String fechaSQL = cnx.toSQL(fechaFiltro); 
+            // Filtra por la fecha de ingreso exacta
+            condiciones.add("fecha_ingreso = '" + fechaSQL + "'");
+        }
+
+        // Construir la consulta final: Si hay condiciones, únelas con 'WHERE' y 'AND'
+        if (!condiciones.isEmpty()) {
+            query += " WHERE " + String.join(" AND ", condiciones);
+        }
+        
+        // Agregar la ordenación final
+        query += " ORDER BY idproductos";
 
         // Ejecuta la consulta y actualiza la tabla
         cnx.entablar(query, TProductos);
     }
-
 }

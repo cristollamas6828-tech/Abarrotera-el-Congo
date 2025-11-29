@@ -8,7 +8,7 @@ public class FVentas extends javax.swing.JFrame {
 
     ImageIcon icono = new ImageIcon(getClass().getResource("/img/shop.png"));
 
-    //---------------------URLs para la base de datos----------------------------
+    //---------------------URLs para la base de datos---------------------------
     String url = "https://lightpink-chicken-700684.hostingersite.com/mysql.php";
     // String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo miarroba
 //    String url = "https://pf220882298.webcindario.com/mysql.php"; // Base Fer miarroba

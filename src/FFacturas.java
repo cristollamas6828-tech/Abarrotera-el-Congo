@@ -14,6 +14,7 @@ public class FFacturas extends javax.swing.JFrame {
     //String url = "https://pf219682889.webcindario.com/mysql.php"; servidor de Mi@
 
     //------------------------------------------------------------------
+   
     ConexionHR cnx = new ConexionHR(url);
 
     //---------------------Consultas--------------------
