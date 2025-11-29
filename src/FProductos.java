@@ -13,7 +13,8 @@ public class FProductos extends javax.swing.JFrame {
     //---------------------URLs para la base de datos----------------------------
 //    String url = "https://pf219682889.webcindario.com/mysql.php";// Base Cristo miarroba
 //    String url = "https://pf220882298.webcindario.com/mysql.php"; // Base Fer miarroba
-    String url = "http://127.0.0.1:9000/mysqlf.php"; // Localhost para pruebas
+    //String url = "http://127.0.0.1:9000/mysqlf.php"; // Localhost para pruebas
+    String url = "https://lightpink-chicken-700684.hostingersite.com/mysql.php";
     //--------------------------------------------------------------------------
     
     ConexionHR cnx = new ConexionHR(url); // Conexion 

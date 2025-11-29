@@ -7,15 +7,16 @@ import javax.swing.table.TableRowSorter;
 public class FVentas extends javax.swing.JFrame {
 
     ImageIcon icono = new ImageIcon(getClass().getResource("/img/shop.png"));
-    
+
     //---------------------URLs para la base de datos----------------------------
-    String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo miarroba
+    String url = "https://lightpink-chicken-700684.hostingersite.com/mysql.php";
+    // String url = "https://pf219682889.webcindario.com/mysql.php"; // Base Cristo miarroba
 //    String url = "https://pf220882298.webcindario.com/mysql.php"; // Base Fer miarroba
 //    String url = "http://127.0.0.1:9000/mysqlC.php"; // Localhost para pruebas
     //--------------------------------------------------------------------------
 
     ConexionHR cnx = new ConexionHR(url); // Conexion
-    
+
     //---------------------Consultas--------------------------------------------
     String ventas = "SELECT facturas_idfacturas AS IDFacturas, "
             + "productos_idproductos AS IDProductos, inventario, "
@@ -26,7 +27,6 @@ public class FVentas extends javax.swing.JFrame {
     String grupo = " GROUP BY pago";
 
     //--------------------------------------------------------------------------
-    
     public FVentas() {
         initComponents();
         setLocationRelativeTo(this);
@@ -37,7 +37,7 @@ public class FVentas extends javax.swing.JFrame {
 
         cnx.entablar(ventas, TConsultas);
         cnx.seleccionar(pagos, CBPagos);
-        
+
         // Ordena elementos de la tabla a la columna seleccionada 
         DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
