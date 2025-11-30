@@ -89,7 +89,7 @@ public class FProductos extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Abarrotera - Productos");
+        setTitle("ABARROTERA - Productos");
         setBackground(new java.awt.Color(0, 0, 0));
 
         PTitulo.setBackground(new java.awt.Color(0, 0, 51));
@@ -105,7 +105,7 @@ public class FProductos extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Productos");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(250, 50, 310, 20);
+        jLabel9.setBounds(260, 50, 310, 20);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/produc.png"))); // NOI18N

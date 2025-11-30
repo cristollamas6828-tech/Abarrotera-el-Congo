@@ -83,7 +83,7 @@ public class FFacturas extends javax.swing.JFrame {
         PFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("ABARROTERA Modulo de Facturas");
+        setTitle("ABARROTERA - Facturas");
         setBackground(new java.awt.Color(0, 0, 0));
 
         PTitulo.setBackground(new java.awt.Color(0, 0, 51));
@@ -92,15 +92,15 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("ABARROTERA");
+        jLabel11.setText("ABARROTERA EL CONGO");
         PTitulo.add(jLabel11);
-        jLabel11.setBounds(150, 8, 190, 40);
+        jLabel11.setBounds(150, 8, 600, 40);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Módulo de Facturas");
+        jLabel9.setText("Facturas");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(150, 50, 170, 20);
+        jLabel9.setBounds(180, 50, 71, 20);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/shop.png"))); // NOI18N

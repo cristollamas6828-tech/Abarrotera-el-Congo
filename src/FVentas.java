@@ -75,7 +75,7 @@ public class FVentas extends javax.swing.JFrame {
         PFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("ABARROTERA - Módulo de Ventas");
+        setTitle("ABARROTERA - Ventas");
         setBackground(new java.awt.Color(0, 0, 0));
 
         PTitulo.setBackground(new java.awt.Color(0, 0, 51));
@@ -83,15 +83,15 @@ public class FVentas extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 153, 255));
-        jLabel11.setText("VENTAS");
+        jLabel11.setText("ABARROTERA EL CONGO");
         PTitulo.add(jLabel11);
-        jLabel11.setBounds(150, 8, 190, 40);
+        jLabel11.setBounds(150, 8, 440, 40);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Módulo de Ventas");
+        jLabel9.setText("Ventas");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(150, 50, 190, 20);
+        jLabel9.setBounds(180, 50, 190, 20);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sales.png"))); // NOI18N
