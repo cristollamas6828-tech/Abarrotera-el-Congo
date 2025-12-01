@@ -70,6 +70,7 @@ public class JDBuscar extends javax.swing.JDialog {
 
         jLabel1.setText("BUSCAR:");
 
+        TBuscar.setEditable(false);
         TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 TBuscarKeyReleased(evt);
