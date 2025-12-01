@@ -11,27 +11,27 @@ public class FFacturas extends javax.swing.JFrame {
 
     //---------------------URL para la base de datos--------------------
     String url = "https://lightpink-chicken-700684.hostingersite.com/mysql.php";
-    //String url = "https://pf219682889.webcindario.com/mysql.php"; servidor de Mi@
-
+    //String url = "https://pf219682889.webcindario.com/mysql.php";
     //------------------------------------------------------------------
-   
     ConexionHR cnx = new ConexionHR(url);
 
     //---------------------Consultas--------------------
-    String factura = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas ";
+    String factura = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas";
     String estatus = "SELECT DISTINCT estado FROM facturas ORDER BY estado";
-    String promedio = "SELECT DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes, AVG(total) AS Promedio_Mensual "
+    String promedio = "SELECT DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes, AVG(total) AS Promedio_Mensual"
             + " FROM facturas ";
     String grupo = " GROUP BY DATE_FORMAT(fecha_emision, '%Y-%m')";
+    // String cliente = "SELECT cliente FROM facturas GROUP BY Cliente";
 
     //-------------------------------------------------------
     public FFacturas() {
         initComponents();
         setLocationRelativeTo(this);
         this.setIconImage(icono.getImage());
-        TFacturas.setEditable(false);
+
         cnx.entablar(factura, TConsulta);
         cnx.seleccionar(estatus, CBEstatus);
+
         buscarFacturas("");
         // Ordena elementos de la tabla a la columna seleccionada 
         DefaultTableModel modelo = (DefaultTableModel) TConsulta.getModel();
@@ -51,6 +51,7 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         jSeparator2 = new javax.swing.JToolBar.Separator();
+        BOrdenar = new javax.swing.JButton();
         BNuevo = new javax.swing.JButton();
         BAgregar = new javax.swing.JButton();
         BActualizar = new javax.swing.JButton();
@@ -83,7 +84,7 @@ public class FFacturas extends javax.swing.JFrame {
         PFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("ABARROTERA - Facturas");
+        setTitle("ABARROTERA Modulo de Facturas");
         setBackground(new java.awt.Color(0, 0, 0));
 
         PTitulo.setBackground(new java.awt.Color(0, 0, 51));
@@ -92,15 +93,15 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("ABARROTERA EL CONGO");
+        jLabel11.setText("ABARROTERA");
         PTitulo.add(jLabel11);
-        jLabel11.setBounds(150, 8, 600, 40);
+        jLabel11.setBounds(150, 8, 190, 40);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Facturas");
+        jLabel9.setText("Módulo de Facturas");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(180, 50, 71, 20);
+        jLabel9.setBounds(150, 50, 170, 20);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/shop.png"))); // NOI18N
@@ -114,10 +115,25 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondoT.png"))); // NOI18N
         jLabel12.setText("jLabel12");
         PTitulo.add(jLabel12);
-        jLabel12.setBounds(780, 0, 420, 90);
+        jLabel12.setBounds(780, 0, 320, 90);
 
         jToolBar1.setRollover(true);
         jToolBar1.add(jSeparator2);
+
+        BOrdenar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ordenarT.png"))); // NOI18N
+        BOrdenar.setText("TODO");
+        BOrdenar.setFocusable(false);
+        BOrdenar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BOrdenar.setMaximumSize(new java.awt.Dimension(100, 70));
+        BOrdenar.setMinimumSize(new java.awt.Dimension(100, 70));
+        BOrdenar.setPreferredSize(new java.awt.Dimension(100, 70));
+        BOrdenar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BOrdenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BOrdenarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BOrdenar);
 
         BNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/new.png"))); // NOI18N
         BNuevo.setText("NUEVO");
@@ -206,6 +222,9 @@ public class FFacturas extends javax.swing.JFrame {
         jToolBar1.add(jSeparator3);
 
         CBOrdenar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Total", "Cliente" }));
+        CBOrdenar.setMaximumSize(new java.awt.Dimension(100, 50));
+        CBOrdenar.setMinimumSize(new java.awt.Dimension(100, 50));
+        CBOrdenar.setPreferredSize(new java.awt.Dimension(100, 50));
         CBOrdenar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CBOrdenarActionPerformed(evt);
@@ -220,8 +239,9 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel13.setPreferredSize(new java.awt.Dimension(150, 30));
         jToolBar1.add(jLabel13);
 
-        TBuscar.setMinimumSize(new java.awt.Dimension(200, 50));
-        TBuscar.setPreferredSize(new java.awt.Dimension(250, 50));
+        TBuscar.setMaximumSize(new java.awt.Dimension(100, 50));
+        TBuscar.setMinimumSize(new java.awt.Dimension(100, 50));
+        TBuscar.setPreferredSize(new java.awt.Dimension(100, 50));
         TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 TBuscarKeyReleased(evt);
@@ -370,7 +390,9 @@ public class FFacturas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 1090, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -378,8 +400,8 @@ public class FFacturas extends javax.swing.JFrame {
                                 .addComponent(PFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,6 +437,7 @@ public class FFacturas extends javax.swing.JFrame {
     }//GEN-LAST:event_BPdfActionPerformed
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
+        BAgregar.setEnabled(true);
         LimpiarCampos();
     }//GEN-LAST:event_BNuevoActionPerformed
 
@@ -505,6 +528,7 @@ public class FFacturas extends javax.swing.JFrame {
         }
 
         // 3. Recargar tabla y limpiar
+        BAgregar.setEnabled(true);
         cnx.entablar(factura, TConsulta);
         LimpiarCampos();
 
@@ -523,6 +547,7 @@ public class FFacturas extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, "¡Factura Se Borro con éxito!");
 
         String[] valores = new String[]{idFactura, fechaEmision, fechaVencimiento, estado, cliente, total, direccion};
+        BBorrar.setEnabled(true);
         cnx.borrar("facturas", valores);
         cnx.entablar(factura, TConsulta);
 
@@ -531,6 +556,7 @@ public class FFacturas extends javax.swing.JFrame {
     }//GEN-LAST:event_BBorrarActionPerformed
 
     private void TConsultaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TConsultaMousePressed
+        BAgregar.setEnabled(false);
         DefaultTableModel datos = (DefaultTableModel) TConsulta.getModel();
         int renSel = TConsulta.getSelectedRow();
         if (renSel > -1) {
@@ -568,43 +594,44 @@ public class FFacturas extends javax.swing.JFrame {
         String busqueda = texto.trim();
 
         // 1. Lógica de ORDENAMIENTO (Requisito: Ordenar por 2 campos)
-        String campoOrden = "idfacturas"; // Por defecto
+        String Orden = "idfacturas"; // Por defecto
 
         // Verificamos que el combo no sea nulo (por si acaso)
         if (CBOrdenar.getSelectedItem() != null) {
             String seleccion = CBOrdenar.getSelectedItem().toString();
             if (seleccion.contains("Total")) {
-                campoOrden = "total DESC"; // Orden descendente
+                Orden = "total DESC"; // Orden descendente
             } else if (seleccion.contains("Cliente")) {
-                campoOrden = "cliente ASC"; // Orden alfabético
+                Orden = "cliente ASC"; // Orden alfabético
             }
         }
 
-        // 2. Lógica de FILTRADO (Requisito: Filtrar por 2 campos)
         if (busqueda.isEmpty()) {
-            sql = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY " + campoOrden;
+            sql = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY " + Orden;
         } else {
-            // Aquí agregamos el "OR idfacturas LIKE..." para cumplir el requisito
+
             sql = "SELECT idfacturas, cliente, estado, total FROM facturas "
                     + "WHERE cliente LIKE '%" + busqueda + "%' "
                     + "OR idfacturas LIKE '%" + busqueda + "%' "
-                    + "ORDER BY " + campoOrden;
+                    + "ORDER BY " + Orden;
         }
 
         cnx.entablar(sql, TConsulta);
     }//GEN-LAST:event_CBOrdenarActionPerformed
-    void buscarFacturas(String texto) {
+
+    private void BOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOrdenarActionPerformed
+        cnx.entablar(factura, TConsulta);
+    }//GEN-LAST:event_BOrdenarActionPerformed
+    public void buscarFacturas(String texto) {
         String sql = "";
 
         if (texto == null || texto.trim().isEmpty()) {
             sql = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas";
         } else {
-
             sql = "SELECT idfacturas, cliente, estado, total FROM facturas "
-                    + "WHERE cliente LIKE '%" + texto + "%' ORDER BY idfacturas";
+                    + "WHERE idfacturas LIKE '%" + texto + "%' OR cliente LIKE '%" + texto + "%' "
+                    + "ORDER BY idfacturas";
         }
-
-        // Tu método 'entablar' se encarga de limpiar y llenar la JTable. ¡Reutilizamos código!
         cnx.entablar(sql, TConsulta);
     }
 
@@ -646,6 +673,7 @@ public class FFacturas extends javax.swing.JFrame {
     private javax.swing.JButton BBorrar;
     private javax.swing.JButton BGrafica;
     private javax.swing.JButton BNuevo;
+    private javax.swing.JButton BOrdenar;
     private javax.swing.JButton BPdf;
     private javax.swing.JComboBox<String> CBEstatus;
     private javax.swing.JComboBox<String> CBOrdenar;

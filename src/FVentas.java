@@ -55,10 +55,9 @@ public class FVentas extends javax.swing.JFrame {
         BPdf = new javax.swing.JButton();
         BGrafica = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
-        CBOrden = new javax.swing.JComboBox<>();
-        jSeparator4 = new javax.swing.JToolBar.Separator();
         jLabel13 = new javax.swing.JLabel();
-        TBuscar = new javax.swing.JTextField();
+        TBuscarID = new javax.swing.JTextField();
+        jSeparator4 = new javax.swing.JToolBar.Separator();
         PFormulario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TIdFactura = new javax.swing.JTextField();
@@ -75,7 +74,7 @@ public class FVentas extends javax.swing.JFrame {
         PFondo = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("ABARROTERA - Ventas");
+        setTitle("ABARROTERA - Módulo de Ventas");
         setBackground(new java.awt.Color(0, 0, 0));
 
         PTitulo.setBackground(new java.awt.Color(0, 0, 51));
@@ -83,15 +82,15 @@ public class FVentas extends javax.swing.JFrame {
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 153, 255));
-        jLabel11.setText("ABARROTERA EL CONGO");
+        jLabel11.setText("VENTAS");
         PTitulo.add(jLabel11);
-        jLabel11.setBounds(150, 8, 440, 40);
+        jLabel11.setBounds(150, 8, 190, 40);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Ventas");
+        jLabel9.setText("Módulo de Ventas");
         PTitulo.add(jLabel9);
-        jLabel9.setBounds(180, 50, 190, 20);
+        jLabel9.setBounds(150, 50, 190, 20);
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sales.png"))); // NOI18N
@@ -201,33 +200,22 @@ public class FVentas extends javax.swing.JFrame {
         jToolBar1.add(BGrafica);
         jToolBar1.add(jSeparator3);
 
-        CBOrden.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        CBOrden.setMaximumSize(new java.awt.Dimension(150, 50));
-        CBOrden.setMinimumSize(new java.awt.Dimension(150, 50));
-        CBOrden.setPreferredSize(new java.awt.Dimension(150, 50));
-        CBOrden.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CBOrdenActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(CBOrden);
-        jToolBar1.add(jSeparator4);
-
-        jLabel13.setText("BUSCAR ID");
+        jLabel13.setText("BUSCAR ID:");
         jLabel13.setMaximumSize(new java.awt.Dimension(80, 30));
         jLabel13.setMinimumSize(new java.awt.Dimension(80, 30));
         jLabel13.setPreferredSize(new java.awt.Dimension(80, 30));
         jToolBar1.add(jLabel13);
 
-        TBuscar.setMaximumSize(new java.awt.Dimension(100, 50));
-        TBuscar.setMinimumSize(new java.awt.Dimension(100, 50));
-        TBuscar.setPreferredSize(new java.awt.Dimension(100, 50));
-        TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+        TBuscarID.setMaximumSize(new java.awt.Dimension(100, 50));
+        TBuscarID.setMinimumSize(new java.awt.Dimension(100, 50));
+        TBuscarID.setPreferredSize(new java.awt.Dimension(100, 50));
+        TBuscarID.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                TBuscarKeyReleased(evt);
+                TBuscarIDKeyReleased(evt);
             }
         });
-        jToolBar1.add(TBuscar);
+        jToolBar1.add(TBuscarID);
+        jToolBar1.add(jSeparator4);
 
         PFormulario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Paciente:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
@@ -393,15 +381,13 @@ public class FVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPdfActionPerformed
-        String pagoExcluido = CBPagos.getSelectedItem().toString();
-        String where = " WHERE pago != '" + pagoExcluido + "'";
-
+        String pagoEx = CBPagos.getSelectedItem().toString();
+        String where = " WHERE pago != '" + pagoEx + "'";
         String orden = " ORDER BY Promedio_Cantidad DESC";
-
         String query = promedio + where + grupo + orden;
 
         cnx.crearPDF(
-                "ABARROTERA", "PROMEDIO DE PRODUCTOS VENDIDOS POR PAGO (Excluyendo " + pagoExcluido + ")", query,
+                "ABARROTERA", "PROMEDIO DE PRODUCTOS VENDIDOS POR PAGO (Excluyendo " + pagoEx + ")", query,
                 new float[]{0.5f, 0.5f}, "promedio_por_pago"
         );
         cnx.visualizarPDF("promedio_por_pago");
@@ -409,6 +395,7 @@ public class FVentas extends javax.swing.JFrame {
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
         LimpiarCampos();
+        BAgregar.setEnabled(true);
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed
@@ -443,11 +430,13 @@ public class FVentas extends javax.swing.JFrame {
         }
 
         cnx.entablar(ventas, TConsultas);
+        BAgregar.setEnabled(true);
         LimpiarCampos();
 
     }//GEN-LAST:event_BActualizarActionPerformed
 
     private void TConsultasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TConsultasMousePressed
+        BAgregar.setEnabled(false);
         DefaultTableModel datos = (DefaultTableModel) TConsultas.getModel();
         int renSel = TConsultas.getSelectedRow();
 
@@ -494,32 +483,6 @@ public class FVentas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_BBorrarActionPerformed
 
-    private void CBOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBOrdenActionPerformed
-        String texto = "";
-        String busqueda = texto.trim(); //Poner lo que escribio el usuario en dicho cambo
-        String sql = "";
-        String campoOrden = "facturas_idfacturas";
-
-        if (CBOrden.getSelectedItem() != null) {
-            String seleccion = CBOrden.getSelectedItem().toString();
-            if (seleccion.contains("Pago")) {
-                campoOrden = "pago";
-            } else if (seleccion.contains("Factura")) {
-                campoOrden = "facturas_idfacturas";
-            }
-        }
-        String select = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos FROM ventas ";
-        if (busqueda.isEmpty()) {
-            sql = select + " ORDER BY " + campoOrden;
-        } else {
-            sql = select
-                    + "WHERE pago LIKE '%" + busqueda + "%' "
-                    + "OR facturas_idfacturas LIKE '%" + busqueda + "%' "
-                    + "ORDER BY " + campoOrden;
-        }
-        cnx.entablar(sql, TConsultas);
-    }//GEN-LAST:event_CBOrdenActionPerformed
-
     private void BBuscarFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBuscarFActionPerformed
         String sql = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY cliente";
         JDBuscar buscador = new JDBuscar(this, "Buscador de Productos", sql, cnx);
@@ -542,9 +505,9 @@ public class FVentas extends javax.swing.JFrame {
         }// TODO add your handling code here:
     }//GEN-LAST:event_BBuscarPActionPerformed
 
-    private void TBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarKeyReleased
-        buscarID(TBuscar.getText());
-    }//GEN-LAST:event_TBuscarKeyReleased
+    private void TBuscarIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarIDKeyReleased
+        buscarID(TBuscarID.getText());
+    }//GEN-LAST:event_TBuscarIDKeyReleased
 
     public void LimpiarCampos() {
         TIdFactura.setText("");
@@ -622,12 +585,11 @@ public class FVentas extends javax.swing.JFrame {
     private javax.swing.JButton BGrafica;
     private javax.swing.JButton BNuevo;
     private javax.swing.JButton BPdf;
-    private javax.swing.JComboBox<String> CBOrden;
     private javax.swing.JComboBox<String> CBPagos;
     private javax.swing.JPanel PFondo;
     private javax.swing.JPanel PFormulario;
     private javax.swing.JPanel PTitulo;
-    private javax.swing.JTextField TBuscar;
+    private javax.swing.JTextField TBuscarID;
     private javax.swing.JTable TConsultas;
     private javax.swing.JTextField TIdFactura;
     private javax.swing.JTextField TIdProductos;
