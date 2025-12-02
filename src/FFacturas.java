@@ -18,10 +18,12 @@ public class FFacturas extends javax.swing.JFrame {
     //---------------------Consultas--------------------
     String factura = "SELECT idfacturas, cliente, estado, total FROM facturas ORDER BY idfacturas";
     String estatus = "SELECT DISTINCT estado FROM facturas ORDER BY estado";
-    String promedio = "SELECT DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes, AVG(total) AS Promedio_Mensual"
-            + " FROM facturas ";
-    String grupo = " GROUP BY DATE_FORMAT(fecha_emision, '%Y-%m')";
-    // String cliente = "SELECT cliente FROM facturas GROUP BY Cliente";
+    String PDF = "SELECT cliente,DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes,COUNT(*) AS Cantidad,SUM(total) AS Total_Mensual, AVG(total) AS Promedio_Mensual "
+            + "FROM facturas "
+            + "GROUP BY Mes "
+            + "ORDER BY Mes";
+    String consultaBase = "SELECT DATE_FORMAT(fecha_emision, '%Y-%m') AS Mes, AVG(total) AS Promedio_Mensual "
+            + "FROM facturas ";
 
     //-------------------------------------------------------
     public FFacturas() {
@@ -115,7 +117,7 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondoT.png"))); // NOI18N
         jLabel12.setText("jLabel12");
         PTitulo.add(jLabel12);
-        jLabel12.setBounds(780, 0, 320, 90);
+        jLabel12.setBounds(780, 0, 400, 90);
 
         jToolBar1.setRollover(true);
         jToolBar1.add(jSeparator2);
@@ -390,9 +392,7 @@ public class FFacturas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 1090, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -400,7 +400,7 @@ public class FFacturas extends javax.swing.JFrame {
                                 .addComponent(PFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -424,16 +424,15 @@ public class FFacturas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPdfActionPerformed
-        String cliente = TCliente.getText();
-        String whereClause = "";
+        cnx.crearPDF(
+                "ABARROTERA",
+                "REPORTE MENSUAL DE VENTAS (Totales y Promedios)",
+                PDF,
+                new float[]{0.4f, 0.4f, 0.3f, 0.25f, 0.25f}, // Ajuste de anchos porcentuales
+                "reporte_mensual_ventas"
+        );
+        cnx.visualizarPDF("reporte_mensual_ventas");
 
-        if (cliente != null && !cliente.trim().isEmpty()) {
-            whereClause = "WHERE cliente = '" + cliente.trim() + "'";
-        }
-        String query = promedio + whereClause + grupo;
-        cnx.crearPDF("ABARROTERA", "PROMEDIO DE FACTURACIÓN POR CLIENTE",
-                query, new float[]{0.5f, 0.5f}, "promedio_cliente");
-        cnx.visualizarPDF("promedio_cliente");
     }//GEN-LAST:event_BPdfActionPerformed
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
@@ -442,24 +441,22 @@ public class FFacturas extends javax.swing.JFrame {
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed
-        String cliente = TCliente.getText();
-        String whereClause = "";
+        String clientes = TCliente.getText();
+        String queryFinal = consultaBase
+                + " WHERE cliente = '" + clientes + "' "
+                + " GROUP BY Mes "
+                + " ORDER BY Mes ";
 
-        if (cliente != null && !cliente.isEmpty()) {
-            whereClause = "WHERE cliente = '" + cliente + "'";
-        }
-        String query = promedio + whereClause + grupo;
-
-        ArrayList<String> series = new ArrayList();
-        ArrayList<ArrayList<String>> datos = new ArrayList();
-
-        datos = cnx.consultar(query);
-        series.add(cliente);
-        GraficaXY graf = new GraficaXY("Promedio Mensual de Facturación", "Mes", "Promedio ($)", series, datos);
+        ArrayList<String> series = new ArrayList<>();
+        ArrayList<ArrayList<String>> datos = new ArrayList<>();
+        datos = cnx.consultar(queryFinal);
+        series.add("Promedio Mensual");
+        GraficaXY graf = new GraficaXY("Tendencia de Promedio - " + clientes, "Mes", "Promedio ($)", series, datos);
 
         PFondo.removeAll();
         PFondo.add(graf.chartPanel);
-        PFondo.updateUI();
+        PFondo.revalidate();
+        PFondo.repaint();
     }//GEN-LAST:event_BGraficaActionPerformed
 
     private void BAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAgregarActionPerformed
