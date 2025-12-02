@@ -424,10 +424,7 @@ public class FFacturas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPdfActionPerformed
-        cnx.crearPDF(
-                "ABARROTERA",
-                "REPORTE MENSUAL DE VENTAS (Totales y Promedios)",
-                PDF,
+        cnx.crearPDF("ABARROTERA","REPORTE MENSUAL DE VENTAS (Totales y Promedios)",PDF,
                 new float[]{0.4f, 0.4f, 0.3f, 0.25f, 0.25f}, // Ajuste de anchos porcentuales
                 "reporte_mensual_ventas"
         );
