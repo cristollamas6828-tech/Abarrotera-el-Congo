@@ -15,6 +15,9 @@ public class FVentas extends javax.swing.JFrame {
     String promedio = "SELECT pago , AVG(inventario) AS Promedio_Cantidad "
             + "FROM ventas";
     String grupo = " GROUP BY pago";
+    String consultaBase = "SELECT f.cliente AS Cliente, COUNT(v.facturas_idfacturas) AS Cantidad_Compras "
+            + "FROM ventas v "
+            + "JOIN facturas f ON v.facturas_idfacturas = f.idfacturas";
 
     //------------------------------------------------------------------
     ConexionHR cnx = new ConexionHR(url);
@@ -26,6 +29,7 @@ public class FVentas extends javax.swing.JFrame {
         //----------Deshabilitar campos-----------
         TIdFactura.setEnabled(false);
         TIdProductos.setEnabled(false);
+       
 
         cnx.entablar(ventas, TConsultas);
         cnx.seleccionar(pagos, CBPagos);
@@ -33,8 +37,9 @@ public class FVentas extends javax.swing.JFrame {
         // Ordena elementos de la tabla a la columna seleccionada 
         DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
-    }
+        TConsultas.setRowSorter(sorter);
 
+    } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -381,16 +386,22 @@ public class FVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPdfActionPerformed
-        String pagoEx = CBPagos.getSelectedItem().toString();
-        String where = " WHERE pago != '" + pagoEx + "'";
-        String orden = " ORDER BY Promedio_Cantidad DESC";
-        String query = promedio + where + grupo + orden;
+        String pagoSel = CBPagos.getSelectedItem().toString();
+
+        String donde = " WHERE v.pago = '" + pagoSel + "'";
+        String grupo = " GROUP BY f.cliente";
+        String orden = " ORDER BY Cantidad_Compras DESC";
+        String query = consultaBase + donde + grupo + orden;
 
         cnx.crearPDF(
-                "ABARROTERA", "PROMEDIO DE PRODUCTOS VENDIDOS POR PAGO (Excluyendo " + pagoEx + ")", query,
-                new float[]{0.5f, 0.5f}, "promedio_por_pago"
+                "ABARROTERA",
+                "TOP CLIENTES - PAGO: " + pagoSel,
+                query,
+                new float[]{0.7f, 0.3f},
+                "reporte_clientes_pago"
         );
-        cnx.visualizarPDF("promedio_por_pago");
+
+        cnx.visualizarPDF("reporte_clientes_pago");
     }//GEN-LAST:event_BPdfActionPerformed
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
@@ -400,15 +411,18 @@ public class FVentas extends javax.swing.JFrame {
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed
         String pago = CBPagos.getSelectedItem().toString();
-        String orden = "ORDER BY promedio_cantidad DESC";
-        String prom = promedio + " WHERE pago != '" + pago + "'" + grupo + " " + orden;
+        String where = " WHERE v.pago = '" + pago + "'";
+        String grupo = " GROUP BY f.cliente";
+        String orden = " ORDER BY Cantidad_Compras DESC";
 
-        ArrayList<String> series = new ArrayList();
-        ArrayList<ArrayList<String>> datos = new ArrayList();
+        String queryFinal = consultaBase + where + grupo + orden;
 
-        datos = cnx.consultar(prom);
+        ArrayList<String> series = new ArrayList<>();
+        ArrayList<ArrayList<String>> datos = new ArrayList<>();
+
+        datos = cnx.consultar(queryFinal);
         series.add(pago);
-        GraficaXY graf = new GraficaXY("Promedio de Metodo de pago especifico", "pago", "Promedio ", series, datos);
+        GraficaXY graf = new GraficaXY("Top Clientes por compras con " + pago, "Cliente", "Cantidad de Compras",series,datos);
 
         PFondo.removeAll();
         PFondo.add(graf.chartPanel);
@@ -541,7 +555,6 @@ public class FVentas extends javax.swing.JFrame {
         String sql = "";
         String select = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos FROM ventas ";
 
-       
         if (texto == null || texto.trim().isEmpty()) {
             sql = select + "ORDER BY facturas_idfacturas";
         } else {
@@ -554,6 +567,7 @@ public class FVentas extends javax.swing.JFrame {
         // Llenar la tabla TConsultas
         cnx.entablar(sql, TConsultas);
     }
+
     public static void main(String args[]) {
 
         try {
