@@ -29,6 +29,8 @@ public class FProductos extends javax.swing.JFrame {
     public FProductos() {
         initComponents();
         TIdProducto.setEnabled(false); // Deshabilitado 
+        BActualizar.setEnabled(false);
+        BBorrar.setEnabled(false);
         setLocationRelativeTo(this);
         this.setIconImage(icono.getImage());
         cnx.entablar(productos, TProductos);
@@ -445,6 +447,10 @@ public class FProductos extends javax.swing.JFrame {
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
         limpiarCampos();
+        BAgregar.setEnabled(true);
+        BActualizar.setEnabled(false);
+        BBorrar.setEnabled(false);
+        cnx.entablar(productos, TProductos);
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BGraficaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BGraficaActionPerformed
@@ -534,6 +540,8 @@ public class FProductos extends javax.swing.JFrame {
 
         cnx.entablar(productos, TProductos);
         limpiarCampos();
+        BAgregar.setEnabled(true);
+        BActualizar.setEnabled(false);
     }//GEN-LAST:event_BActualizarActionPerformed
 
     private void BBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBorrarActionPerformed
@@ -567,7 +575,8 @@ public class FProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_BBorrarActionPerformed
 
     private void TProductosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TProductosMousePressed
-
+        BActualizar.setEnabled(true);
+        
         DefaultTableModel datos = (DefaultTableModel) TProductos.getModel();
         int renSel = TProductos.getSelectedRow();
         if (renSel > -1) {
@@ -596,7 +605,10 @@ public class FProductos extends javax.swing.JFrame {
 
             TPrecio.setText(pre);
             TLote.setText(lote); // Llenar el campo de lote
+            BAgregar.setEnabled(false);
+            BBorrar.setEnabled(true);
         }
+        BBorrar.setEnabled(true);
     }//GEN-LAST:event_TProductosMousePressed
 
     private void TBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBusquedaKeyTyped
@@ -684,22 +696,18 @@ public class FProductos extends javax.swing.JFrame {
     }
 
     private void filtrarProductos() {
- String nombreBuscado = TBusqueda.getText().trim();
-        Date fechaFiltro = DCFiltrarFechaa.getDate();
-        
+        String nombreBuscado = TBusqueda.getText().trim();
+        Date fechaFiltro = DCFiltrarFechaa.getDate();   
         // Consulta base
         String query = "SELECT idproductos, nombrep, fecha_ingreso, cantidad, precio, lote "
                      + "FROM productos";
-        
         // Lista para acumular las condiciones del WHERE
         ArrayList<String> condiciones = new ArrayList<>();
-
         // 1. Condición: Filtrar por nombre (si hay texto en la caja de búsqueda)
         if (!nombreBuscado.isEmpty()) {
             // Se usa LIKE para encontrar coincidencias parciales
             condiciones.add("nombrep LIKE '%" + nombreBuscado + "%'");
         }
-
         // 2. Condición: Filtrar por fecha de ingreso (si hay una fecha seleccionada)
         if (fechaFiltro != null) {
             // Convierte la fecha seleccionada a formato SQL ('YYYY-MM-DD')
@@ -707,12 +715,10 @@ public class FProductos extends javax.swing.JFrame {
             // Filtra por la fecha de ingreso exacta
             condiciones.add("fecha_ingreso = '" + fechaSQL + "'");
         }
-
         // Construir la consulta final: Si hay condiciones, únelas con 'WHERE' y 'AND'
         if (!condiciones.isEmpty()) {
             query += " WHERE " + String.join(" AND ", condiciones);
-        }
-        
+        }   
         // Agregar la ordenación final
         query += " ORDER BY idproductos";
 
