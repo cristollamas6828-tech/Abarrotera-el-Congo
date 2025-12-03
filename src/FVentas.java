@@ -603,7 +603,7 @@ public class FVentas extends javax.swing.JFrame {
         String id = buscador.getIdSeleccionado();
         if (!id.isEmpty()) {
             TIdProductos.setText(id);
-        }// TODO add your handling code here:
+        }
     }//GEN-LAST:event_BBuscarPActionPerformed
 
     private void TBuscarIDFacKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarIDFacKeyReleased

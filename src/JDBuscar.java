@@ -70,11 +70,6 @@ public class JDBuscar extends javax.swing.JDialog {
         jLabel1.setText("BUSCAR:");
 
         TBuscar.setEditable(false);
-        TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                TBuscarKeyReleased(evt);
-            }
-        });
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -88,9 +83,6 @@ public class JDBuscar extends javax.swing.JDialog {
             }
         ));
         tabla.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaMouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tablaMousePressed(evt);
             }
@@ -130,18 +122,6 @@ public class JDBuscar extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void TBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarKeyReleased
-        filtrar();
-    }//GEN-LAST:event_TBuscarKeyReleased
-
-    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        String texto = TBuscar.getText();
-        if (evt.getClickCount() == 2) {
-            seleccionarYCerar();
-        }
-
-    }//GEN-LAST:event_tablaMouseClicked
 
     private void BSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BSeleccionarActionPerformed
         seleccionarYCerar();
@@ -205,13 +185,6 @@ public class JDBuscar extends javax.swing.JDialog {
         modelo = (javax.swing.table.DefaultTableModel) tabla.getModel();
         sorter = new javax.swing.table.TableRowSorter<>(modelo);
         tabla.setRowSorter(sorter);
-    }
-
-    private void filtrar() {
-        String texto = TBuscar.getText();
-        if (texto.trim().length() == 0) {
-            sorter.setRowFilter(null);
-        }
     }
 
     private void seleccionarYCerar() {
