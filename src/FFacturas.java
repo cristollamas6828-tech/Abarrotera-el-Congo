@@ -251,7 +251,7 @@ public class FFacturas extends javax.swing.JFrame {
         jToolBar1.add(CBOrdenar);
         jToolBar1.add(jSeparator4);
 
-        jLabel13.setText("BUSCAR POR NOMBRE ");
+        jLabel13.setText("BUSCAR POR ID y Cliente:");
         jLabel13.setMaximumSize(new java.awt.Dimension(150, 50));
         jLabel13.setMinimumSize(new java.awt.Dimension(150, 30));
         jLabel13.setPreferredSize(new java.awt.Dimension(150, 30));

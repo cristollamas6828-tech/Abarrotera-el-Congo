@@ -406,7 +406,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
-            <Property name="text" type="java.lang.String" value="BUSCAR POR NOMBRE "/>
+            <Property name="text" type="java.lang.String" value="BUSCAR POR ID y Cliente:"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[150, 50]"/>
             </Property>
