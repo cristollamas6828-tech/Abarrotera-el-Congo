@@ -117,11 +117,13 @@ public class FFacturas extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondoT.png"))); // NOI18N
         jLabel12.setText("jLabel12");
         PTitulo.add(jLabel12);
-        jLabel12.setBounds(780, 0, 400, 90);
+        jLabel12.setBounds(780, 0, 310, 90);
 
         jToolBar1.setRollover(true);
         jToolBar1.add(jSeparator2);
 
+        BOrdenar.setBackground(new java.awt.Color(153, 255, 255));
+        BOrdenar.setForeground(new java.awt.Color(0, 0, 0));
         BOrdenar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ordenarT.png"))); // NOI18N
         BOrdenar.setText("TODO");
         BOrdenar.setFocusable(false);
@@ -137,6 +139,8 @@ public class FFacturas extends javax.swing.JFrame {
         });
         jToolBar1.add(BOrdenar);
 
+        BNuevo.setBackground(new java.awt.Color(153, 255, 255));
+        BNuevo.setForeground(new java.awt.Color(0, 0, 0));
         BNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/new.png"))); // NOI18N
         BNuevo.setText("NUEVO");
         BNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -151,6 +155,8 @@ public class FFacturas extends javax.swing.JFrame {
         });
         jToolBar1.add(BNuevo);
 
+        BAgregar.setBackground(new java.awt.Color(153, 255, 255));
+        BAgregar.setForeground(new java.awt.Color(0, 0, 0));
         BAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
         BAgregar.setText("AGREGAR");
         BAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -165,6 +171,8 @@ public class FFacturas extends javax.swing.JFrame {
         });
         jToolBar1.add(BAgregar);
 
+        BActualizar.setBackground(new java.awt.Color(153, 255, 255));
+        BActualizar.setForeground(new java.awt.Color(0, 0, 0));
         BActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
         BActualizar.setText("ACTUALIZAR");
         BActualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -179,6 +187,8 @@ public class FFacturas extends javax.swing.JFrame {
         });
         jToolBar1.add(BActualizar);
 
+        BBorrar.setBackground(new java.awt.Color(153, 255, 255));
+        BBorrar.setForeground(new java.awt.Color(0, 0, 0));
         BBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
         BBorrar.setText("BORRAR");
         BBorrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -194,6 +204,8 @@ public class FFacturas extends javax.swing.JFrame {
         jToolBar1.add(BBorrar);
         jToolBar1.add(jSeparator1);
 
+        BPdf.setBackground(new java.awt.Color(153, 255, 255));
+        BPdf.setForeground(new java.awt.Color(0, 0, 0));
         BPdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pdf.png"))); // NOI18N
         BPdf.setText("PDF");
         BPdf.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -208,6 +220,8 @@ public class FFacturas extends javax.swing.JFrame {
         });
         jToolBar1.add(BPdf);
 
+        BGrafica.setBackground(new java.awt.Color(153, 255, 255));
+        BGrafica.setForeground(new java.awt.Color(0, 0, 0));
         BGrafica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Graph.png"))); // NOI18N
         BGrafica.setText("GRAFICA");
         BGrafica.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -223,6 +237,8 @@ public class FFacturas extends javax.swing.JFrame {
         jToolBar1.add(BGrafica);
         jToolBar1.add(jSeparator3);
 
+        CBOrdenar.setBackground(new java.awt.Color(255, 255, 255));
+        CBOrdenar.setForeground(new java.awt.Color(0, 0, 0));
         CBOrdenar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Total", "Cliente" }));
         CBOrdenar.setMaximumSize(new java.awt.Dimension(100, 50));
         CBOrdenar.setMinimumSize(new java.awt.Dimension(100, 50));
@@ -388,20 +404,22 @@ public class FFacturas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(PTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(PFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(PFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(PFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

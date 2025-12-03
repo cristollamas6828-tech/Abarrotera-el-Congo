@@ -18,7 +18,8 @@ public class FVentas extends javax.swing.JFrame {
     String consultaBase = "SELECT f.cliente AS Cliente, COUNT(v.facturas_idfacturas) AS Cantidad_Compras "
             + "FROM ventas v "
             + "JOIN facturas f ON v.facturas_idfacturas = f.idfacturas";
-
+    String orIdFactura = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos FROM ventas ";
+    String OrIdProd = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos FROM ventas ";
     //------------------------------------------------------------------
     ConexionHR cnx = new ConexionHR(url);
 
@@ -29,7 +30,6 @@ public class FVentas extends javax.swing.JFrame {
         //----------Deshabilitar campos-----------
         TIdFactura.setEnabled(false);
         TIdProductos.setEnabled(false);
-       
 
         cnx.entablar(ventas, TConsultas);
         cnx.seleccionar(pagos, CBPagos);
@@ -39,7 +39,8 @@ public class FVentas extends javax.swing.JFrame {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
         TConsultas.setRowSorter(sorter);
 
-    } 
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,8 +62,9 @@ public class FVentas extends javax.swing.JFrame {
         BGrafica = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jLabel13 = new javax.swing.JLabel();
-        TBuscarID = new javax.swing.JTextField();
-        jSeparator4 = new javax.swing.JToolBar.Separator();
+        TBuscarIDFac = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        TBuscarIDProd = new javax.swing.JTextField();
         PFormulario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TIdFactura = new javax.swing.JTextField();
@@ -112,10 +114,12 @@ public class FVentas extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo1.png"))); // NOI18N
         jLabel3.setText("jLabel3");
         PTitulo.add(jLabel3);
-        jLabel3.setBounds(890, 0, 130, 90);
+        jLabel3.setBounds(880, 0, 140, 90);
 
         jToolBar1.setRollover(true);
 
+        BNuevo.setBackground(new java.awt.Color(153, 255, 255));
+        BNuevo.setForeground(new java.awt.Color(0, 0, 0));
         BNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/new.png"))); // NOI18N
         BNuevo.setText("NUEVO");
         BNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -131,6 +135,8 @@ public class FVentas extends javax.swing.JFrame {
         jToolBar1.add(BNuevo);
         jToolBar1.add(jSeparator2);
 
+        BAgregar.setBackground(new java.awt.Color(153, 255, 255));
+        BAgregar.setForeground(new java.awt.Color(0, 0, 0));
         BAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
         BAgregar.setText("AGREGAR");
         BAgregar.setFocusable(false);
@@ -146,6 +152,8 @@ public class FVentas extends javax.swing.JFrame {
         });
         jToolBar1.add(BAgregar);
 
+        BActualizar.setBackground(new java.awt.Color(153, 255, 255));
+        BActualizar.setForeground(new java.awt.Color(51, 51, 51));
         BActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit.png"))); // NOI18N
         BActualizar.setText("ACTUALIZAR");
         BActualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -160,6 +168,8 @@ public class FVentas extends javax.swing.JFrame {
         });
         jToolBar1.add(BActualizar);
 
+        BBorrar.setBackground(new java.awt.Color(153, 255, 255));
+        BBorrar.setForeground(new java.awt.Color(0, 0, 0));
         BBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
         BBorrar.setText("BORRAR");
         BBorrar.setFocusable(false);
@@ -176,6 +186,8 @@ public class FVentas extends javax.swing.JFrame {
         jToolBar1.add(BBorrar);
         jToolBar1.add(jSeparator1);
 
+        BPdf.setBackground(new java.awt.Color(153, 255, 255));
+        BPdf.setForeground(new java.awt.Color(0, 0, 0));
         BPdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pdf.png"))); // NOI18N
         BPdf.setText("PDF");
         BPdf.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -190,6 +202,8 @@ public class FVentas extends javax.swing.JFrame {
         });
         jToolBar1.add(BPdf);
 
+        BGrafica.setBackground(new java.awt.Color(153, 255, 255));
+        BGrafica.setForeground(new java.awt.Color(0, 0, 0));
         BGrafica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Graph.png"))); // NOI18N
         BGrafica.setText("GRAFICA");
         BGrafica.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -205,22 +219,38 @@ public class FVentas extends javax.swing.JFrame {
         jToolBar1.add(BGrafica);
         jToolBar1.add(jSeparator3);
 
-        jLabel13.setText("BUSCAR ID:");
-        jLabel13.setMaximumSize(new java.awt.Dimension(80, 30));
-        jLabel13.setMinimumSize(new java.awt.Dimension(80, 30));
-        jLabel13.setPreferredSize(new java.awt.Dimension(80, 30));
+        jLabel13.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("BUSCAR IDFactura:");
+        jLabel13.setMaximumSize(new java.awt.Dimension(100, 90));
+        jLabel13.setMinimumSize(new java.awt.Dimension(100, 90));
+        jLabel13.setOpaque(true);
+        jLabel13.setPreferredSize(new java.awt.Dimension(100, 90));
         jToolBar1.add(jLabel13);
 
-        TBuscarID.setMaximumSize(new java.awt.Dimension(100, 50));
-        TBuscarID.setMinimumSize(new java.awt.Dimension(100, 50));
-        TBuscarID.setPreferredSize(new java.awt.Dimension(100, 50));
-        TBuscarID.addKeyListener(new java.awt.event.KeyAdapter() {
+        TBuscarIDFac.setForeground(new java.awt.Color(0, 0, 0));
+        TBuscarIDFac.setMaximumSize(new java.awt.Dimension(100, 50));
+        TBuscarIDFac.setMinimumSize(new java.awt.Dimension(100, 50));
+        TBuscarIDFac.setPreferredSize(new java.awt.Dimension(100, 50));
+        TBuscarIDFac.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                TBuscarIDKeyReleased(evt);
+                TBuscarIDFacKeyReleased(evt);
             }
         });
-        jToolBar1.add(TBuscarID);
-        jToolBar1.add(jSeparator4);
+        jToolBar1.add(TBuscarIDFac);
+
+        jLabel6.setText("Buscar IdProducto:");
+        jToolBar1.add(jLabel6);
+
+        TBuscarIDProd.setMaximumSize(new java.awt.Dimension(100, 50));
+        TBuscarIDProd.setMinimumSize(new java.awt.Dimension(100, 50));
+        TBuscarIDProd.setPreferredSize(new java.awt.Dimension(100, 50));
+        TBuscarIDProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TBuscarIDProdKeyReleased(evt);
+            }
+        });
+        jToolBar1.add(TBuscarIDProd);
 
         PFormulario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Paciente:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
@@ -345,25 +375,25 @@ public class FVentas extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(TConsultas);
 
-        PFondo.setBackground(new java.awt.Color(255, 255, 204));
+        PFondo.setBackground(new java.awt.Color(255, 255, 255));
         PFondo.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(PFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(27, 27, 27))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
-                    .addComponent(PTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(PTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -422,7 +452,7 @@ public class FVentas extends javax.swing.JFrame {
 
         datos = cnx.consultar(queryFinal);
         series.add(pago);
-        GraficaXY graf = new GraficaXY("Top Clientes por compras con " + pago, "Cliente", "Cantidad de Compras",series,datos);
+        GraficaXY graf = new GraficaXY("Top Clientes por compras con " + pago, "Cliente", "Cantidad de Compras", series, datos);
 
         PFondo.removeAll();
         PFondo.add(graf.chartPanel);
@@ -519,9 +549,13 @@ public class FVentas extends javax.swing.JFrame {
         }// TODO add your handling code here:
     }//GEN-LAST:event_BBuscarPActionPerformed
 
-    private void TBuscarIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarIDKeyReleased
-        buscarID(TBuscarID.getText());
-    }//GEN-LAST:event_TBuscarIDKeyReleased
+    private void TBuscarIDFacKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarIDFacKeyReleased
+        buscarIDFactura(TBuscarIDFac.getText());
+    }//GEN-LAST:event_TBuscarIDFacKeyReleased
+
+    private void TBuscarIDProdKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarIDProdKeyReleased
+        buscarIDProductos(TBuscarIDProd.getText());
+    }//GEN-LAST:event_TBuscarIDProdKeyReleased
 
     public void LimpiarCampos() {
         TIdFactura.setText("");
@@ -551,16 +585,27 @@ public class FVentas extends javax.swing.JFrame {
         cnx.entablar(sql, TConsultas);
     }
 
-    public void buscarID(String texto) {
+    public void buscarIDProductos(String texto) {
         String sql = "";
-        String select = "SELECT facturas_idfacturas AS IDFacturas, productos_idproductos AS IDProductos, inventario, pago AS Pagos FROM ventas ";
 
-        if (texto == null || texto.trim().isEmpty()) {
-            sql = select + "ORDER BY facturas_idfacturas";
+        // Consulta base
+        sql = OrIdProd
+                + "WHERE productos_idproductos LIKE '%" + texto.trim() + "%' " // Filtro cambiado a IDProductos
+                + "ORDER BY productos_idproductos"; // Orden cambiado a IDProductos
+
+        // Llenar la tabla TConsultas
+        cnx.entablar(sql, TConsultas);
+    }
+
+    public void buscarIDFactura(String texto) {
+        String sql = "";
+
+        if (texto.trim().isEmpty()) {
+            sql = orIdFactura + " ORDER BY facturas_idfacturas";
         } else {
-            String textoFiltrado = texto.trim();
-            sql = select
-                    + "WHERE facturas_idfacturas LIKE '%" + textoFiltrado + "%' "
+            sql = orIdFactura
+                    + "WHERE pago LIKE '%" + texto.trim() + "%' "
+                    + "OR facturas_idfacturas LIKE '%" + texto.trim() + "%' "
                     + "ORDER BY facturas_idfacturas";
         }
 
@@ -603,7 +648,8 @@ public class FVentas extends javax.swing.JFrame {
     private javax.swing.JPanel PFondo;
     private javax.swing.JPanel PFormulario;
     private javax.swing.JPanel PTitulo;
-    private javax.swing.JTextField TBuscarID;
+    private javax.swing.JTextField TBuscarIDFac;
+    private javax.swing.JTextField TBuscarIDProd;
     private javax.swing.JTable TConsultas;
     private javax.swing.JTextField TIdFactura;
     private javax.swing.JTextField TIdProductos;
@@ -616,13 +662,13 @@ public class FVentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
-    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 

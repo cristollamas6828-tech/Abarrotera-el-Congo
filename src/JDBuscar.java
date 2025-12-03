@@ -14,9 +14,8 @@ public class JDBuscar extends javax.swing.JDialog {
 
     // --- CONSTRUCTOR ---
     public JDBuscar(java.awt.Frame parent, String titulo, String consultaSql, ConexionHR conexion) {
-        super(parent, true); // true = Modal
-        initComponents();    // Inicializa tus componentes (TBuscar, BSeleccionar, etc.)
-
+        super(parent, true); 
+        initComponents();   
         this.setTitle(titulo);
         this.cnx = conexion;
         cargarDatos(consultaSql);
@@ -139,7 +138,6 @@ public class JDBuscar extends javax.swing.JDialog {
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
         String texto = TBuscar.getText();
         if (evt.getClickCount() == 2) {
-
             seleccionarYCerar();
         }
 
@@ -158,10 +156,10 @@ public class JDBuscar extends javax.swing.JDialog {
         int renSel = tabla.getSelectedRow();
 
         if (renSel > -1) {
-            // 1. Obtener el ID de la factura de la primera columna (índice 0)
+            //  Obtener el ID de la factura de la primera columna (índice 0)
             String idFactura = datos.getValueAt(renSel, 0).toString();
 
-            // 2. Poner el ID en el campo de texto TBuscar
+            // Poner el ID en el campo de texto TBuscar
             TBuscar.setText(idFactura);
         }
     }//GEN-LAST:event_tablaMousePressed
@@ -202,10 +200,8 @@ public class JDBuscar extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void cargarDatos(String sql) {
-        // Llenar la tabla usando tu conexión
         cnx.entablar(sql, tabla);
 
-        // Configurar el ordenamiento y filtrado
         modelo = (javax.swing.table.DefaultTableModel) tabla.getModel();
         sorter = new javax.swing.table.TableRowSorter<>(modelo);
         tabla.setRowSorter(sorter);
@@ -221,14 +217,12 @@ public class JDBuscar extends javax.swing.JDialog {
     private void seleccionarYCerar() {
         int fila = tabla.getSelectedRow();
         if (fila != -1) {
-            // Convertir índice por si hay filtro aplicado
             int modelRow = tabla.convertRowIndexToModel(fila);
-            // Asumimos que el ID SIEMPRE está en la columna 0
             Object valor = tabla.getModel().getValueAt(modelRow, 0);
             if (valor != null) {
                 idSeleccionado = valor.toString();
             }
-            dispose(); // Cerrar ventana
+            dispose();
         }
     }
 
